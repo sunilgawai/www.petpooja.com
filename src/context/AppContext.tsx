@@ -1,28 +1,28 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-
-
-interface IAppContextProps {
-    categories: never[]
-    setCategories: React.Dispatch<React.SetStateAction<never[]>>
-    products: never[]
-    setProducts: React.Dispatch<React.SetStateAction<never[]>>
-}
+import { createContext, useState, useEffect, ReactNode } from "react";
+import { IAppContextProps } from "./types";
+import { ICategory, IProduct } from "../types";
 
 const AppContext = createContext<IAppContextProps>({} as IAppContextProps);
 
-const AppContextProvide = ({ children }: { children: ReactNode }) => {
-    const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState([]);
+const AppContextProvider = ({ children }: { children: ReactNode }) => {
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [products, setProducts] = useState<IProduct[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:4000/categories")
+        fetch("http://localhost:4000/api/categories")
             .then(res => res.json())
-            .then(data => setCategories(data))
+            .then(data => {
+                console.log(data)
+                setCategories(data);
+            })
             .catch(err => console.log(err))
 
-        fetch('http://localhost:4000/products')
+        fetch('http://localhost:4000/api/products')
             .then(res => res.json())
-            .then(data => setProducts(data))
+            .then(data => {
+                console.log(data);
+                setProducts(data);
+            })
             .catch(err => console.log(err))
     }, [])
 
@@ -36,6 +36,5 @@ const AppContextProvide = ({ children }: { children: ReactNode }) => {
     </AppContext.Provider>
 }
 
-const useAppContext = () => useContext(AppContext);
 
-export { AppContext, AppContextProvide, useAppContext };
+export { AppContext, AppContextProvider };
