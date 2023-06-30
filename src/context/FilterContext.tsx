@@ -8,8 +8,8 @@ const filterReducer = (state: IFilterState, action: any) => {
         case 'LOAD_FILTER_STATE': {
             const { categories, products } = action.payload;
 
-            console.log('payload in action.categories ', categories)
-            console.log('payload in action.products ', products)
+            // console.log('payload in action.categories ', categories)
+            // console.log('payload in action.products ', products)
 
             return {
                 ...state,
@@ -63,7 +63,7 @@ const FilterContextProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         // Load filtered products.
-        console.log({ LOAD_FILTER_STATE: "LOAD_FILTER_STATE", categories, products })
+        // console.log({ LOAD_FILTER_STATE: "LOAD_FILTER_STATE", categories, products })
         dispatchFilter({ type: 'LOAD_FILTER_STATE', payload: { categories, products } });
     }, [categories, products])
 

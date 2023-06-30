@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ICategory } from "../types";
+import { ICategory } from "../../types";
 
 type CategoryProps = {
     category: ICategory;

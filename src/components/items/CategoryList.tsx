@@ -1,10 +1,10 @@
-import { useAppContext, useFilterContext } from "../context";
+import { useAppContext } from "../../context";
 import Category from "./Category";
 
 const CategoryList = () => {
     const { categories } = useAppContext();
     // const { categories } = useFilterContext();
-    console.log("Category", categories)
+    // console.log("Category", categories)
 
     return (
         <nav style={{ maxWidth: '200px' }}>

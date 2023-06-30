@@ -1,9 +1,7 @@
-import SearchBar from './components/SearchBar';
-import CategoryList from './components/CategoryList';
-import ProductList from './components/ProductList';
-import DeliveryComponent from './components/DeliveryComponent';
-import CartController from './components/CartController';
-import CartView from './components/CartView';
+import SearchBar from './components/header/SearchBar';
+import CategoryList from './components/items/CategoryList';
+import ProductList from './components/items/ProductList';
+import Cart from './components/cart/Cart';
 
 const Home = () => {
 
@@ -38,7 +36,7 @@ const Home = () => {
           <div className="col-lg-5">
             <div className="d-flex delivery-box">
               <div className="card" style={{ maxWidth: '100%' }}>
-                
+
                 <nav>
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
                     <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Dine In </button>
@@ -47,27 +45,10 @@ const Home = () => {
                   </div>
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
+
+                  {/* Cart Section  */}
+                  <Cart />
                   
-                  <div className="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    
-                    <div className="dine-tab">
-                      <ul>
-                        <li><img src="img/dine-icon01.png" alt="" /></li>
-                        <li><img src="img/dine-icon01.png" alt="" /></li>
-                        <li><img src="img/dine-icon02.png" alt="" /></li>
-                        <li><img src="img/dine-icon03.png" alt="" /></li>
-                        <li><img src="img/dine-icon04.png" alt="" /></li>
-                      </ul>
-
-                      <div className="dine-button"><a href="#" className="btn">Dine In</a></div>
-                    </div>
-
-
-                    <CartView />
-
-                    <CartController />
-
-                  </div>
                   <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <p><strong>This is some placeholder content the Profile tab's associated content.</strong>
                       Clicking another tab will toggle the visibility of this one for the next.
