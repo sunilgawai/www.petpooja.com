@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import { useCartContext } from "../../context";
+import { useCartContextOld } from "../../context";
 import { ITable } from "../../types";
 import CartItemList from "./CartItemList";
 
 const CartView: FC = () => {
-    const { activeCart, cartT̥ables } = useCartContext();
+    const { activeCart, cartT̥ables } = useCartContextOld();
     const [table, setTable] = useState<ITable>({} as ITable);
 
     useEffect(() => {

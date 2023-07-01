@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { useCartContext } from "../../context";
+import { useCartContextOld } from "../../context";
 import { ITable } from "../../types";
 
 const CartController = () => {
     const [open, setOpen] = useState(false);
-    const { activeCart, cartT̥ables, setCartTables } = useCartContext();
+    const { activeCart, cartT̥ables, setCartTables } = useCartContextOld();
     const [table, setTable] = useState<ITable>({} as ITable);
 
     useEffect(() => {
         const table_number = cartT̥ables.findIndex(table => table.id === activeCart);
         setTable(cartT̥ables[table_number])
-        console.log('table', table?.Cart);
+        console.log('table j', table?.Cart);
     }, [activeCart, cartT̥ables])
 
-    const update_cart = (payment_method: string, payment_status = false) => {
+    const update_cart = (payment_method: string, payment_status = '0') => {
         console.log(payment_method, payment_status)
         setCartTables((prev_tables) => {
             const updated_tables = [...prev_tables];
@@ -56,7 +56,7 @@ const CartController = () => {
             <div className="menu-total">
                 <a href="#" className="btn">Spit</a>
 
-                <div className="total-text">Total <span>{table.Cart?.total_price}</span></div>
+                <div className="total-text">Total <span>{ 0}</span></div>
             </div>
 
             <div className="menu-radio">
@@ -65,7 +65,7 @@ const CartController = () => {
                         id="CASH"
                         name="payment_method"
                         value="CASH"
-                        onChange={(e) => update_cart(e.target.value, false)} />
+                        onChange={(e) => update_cart(e.target.value, '0')} />
                     <span>Cash</span>
                 </label>
 
@@ -74,7 +74,7 @@ const CartController = () => {
                         id="CARD"
                         name="payment_method"
                         value="CARD"
-                        onChange={(e) => update_cart(e.target.value, false)} />
+                        onChange={(e) => update_cart(e.target.value, '0')} />
                     <span>Card</span>
                 </label>
                 <label className="radio">
@@ -82,7 +82,7 @@ const CartController = () => {
                         id="DUE"
                         name="payment_method"
                         value="DUE"
-                        onChange={(e) => update_cart(e.target.value, false)} />
+                        onChange={(e) => update_cart(e.target.value, '0')} />
                     <span>Due</span>
                 </label>
 
@@ -91,7 +91,7 @@ const CartController = () => {
                         id="OTHER"
                         name="payment_method"
                         value="OTHER"
-                        onChange={(e) => update_cart(e.target.value, false)} />
+                        onChange={(e) => update_cart(e.target.value, '0')} />
                     <span>Other</span>
                 </label>
                 <label className="radio">
@@ -99,7 +99,7 @@ const CartController = () => {
                         id="PART"
                         name="payment_method"
                         value="PART"
-                        onChange={(e) => update_cart(e.target.value, false)} />
+                        onChange={(e) => update_cart(e.target.value, '0')} />
                     <span>Part</span>
                 </label>
             </div>

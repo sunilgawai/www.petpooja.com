@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { IProduct } from '../../types';
-import { useCartContext } from '../../context';
+import { useCartContextOld } from '../../context';
 import { FC } from "react";
 
 type ProductProps = {
     product: IProduct;
 }
 const Product: FC<ProductProps> = ({ product }) => {
-    const { addToCart, activeCart } = useCartContext();
+    const { addToCart, activeCart } = useCartContextOld();
 
     return (
         <li>

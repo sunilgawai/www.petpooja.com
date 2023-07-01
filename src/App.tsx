@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FilterContextProvider } from "./context/FilterContext";
 import { AppContextProvider } from "./context/AppContext";
-import { CartContextProvider } from "./context/CartContextOld";
+import { CartContextOldProvider } from "./context/CartContextOld";
+import { CartContextProvider } from "./context/CartContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -15,15 +16,17 @@ const App = () => {
       <AuthContextProvider>
         <AppContextProvider>
           <FilterContextProvider>
-            <CartContextProvider>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Protected children={<Home/>} />} />
-                  <Route path="/orders" element={<Protected children={<Home/>} />} />
-                  <Route path="/auth/login" element={<Login />} />
-                </Routes>
-              </Router>
-            </CartContextProvider>
+            <CartContextOldProvider>
+              <CartContextProvider>
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Protected children={<Home />} />} />
+                    <Route path="/orders" element={<Protected children={<Home />} />} />
+                    <Route path="/auth/login" element={<Login />} />
+                  </Routes>
+                </Router>
+              </CartContextProvider>
+            </CartContextOldProvider>
           </FilterContextProvider>
         </AppContextProvider>
       </AuthContextProvider>

@@ -3,10 +3,10 @@ import { ICart, ITable } from "../types";
 import { ICartContextProps } from "./types";
 import { useAppContext } from ".";
 
-const CartContext = createContext<ICartContextProps>({} as ICartContextProps);
+const CartContextOld = createContext<ICartContextProps>({} as ICartContextProps);
 
-const CartContextProvider = ({ children }: { children: ReactNode }) => {
-    const { cartTables } = useAppContext();
+const CartContextOldProvider = ({ children }: { children: ReactNode }) => {
+    const { tables } = useAppContext();
 
     const [cartT̥ables, setCartTables] = useState<ITable[]>([]);
     const [cart, setCart] = useState<ICart | null>(null);
@@ -21,7 +21,7 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         // Setting the initial tables to CartContext State.
         // cartT̥ables(cartTables);
-    }, [cartTables])
+    }, [tables])
 
     useEffect(() => {
         fetch('http://localhost:4000/api/cart')
@@ -62,7 +62,7 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
             } else {
                 table.Cart = {
                     payment_method: "CASH",
-                    payment_status: false,
+                    payment_status: '0',
                     items: [{
                         name: name,
                         item_id: product_id,
@@ -121,7 +121,7 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
     //         .catch(err => console.log(err))
     // }
 
-    return <CartContext.Provider value={{
+    return <CartContextOld.Provider value={{
         cartT̥ables,
         setCartTables,
         cart,
@@ -134,7 +134,7 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         updateCustomerDetails
     }}>
         {children}
-    </CartContext.Provider>
+    </CartContextOld.Provider>
 }
 
-export { CartContext, CartContextProvider };
+export { CartContextOld, CartContextOldProvider };

@@ -1,13 +1,13 @@
-import { useAppContext, useCartContext } from "../../context";
+import { useAppContext, useCartContextOld } from "../../context";
 
 const Tables = () => {
-    const { setActiveCart } = useCartContext();
-    const { cartTables } = useAppContext();
+    const { setActiveCart } = useCartContextOld();
+    const { tables } = useAppContext();
 
     return (
         <>
             {
-                cartTables.map((table) => <li
+                tables.map((table) => <li
                     key={table.cart_table_id}>
                     <img
                         className="w-50"

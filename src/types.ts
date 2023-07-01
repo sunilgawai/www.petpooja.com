@@ -11,7 +11,7 @@ export interface ICart {
     customer_first_name: string;
     customer_last_name: string;
     customer_mobile: string;
-    payment_status: boolean;
+    payment_status: string;
     payment_method: string;
     items: ICartItem[];
     total_price: number

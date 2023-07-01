@@ -32,13 +32,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         console.log('stored state not found')
     }, [])
 
-    // useEffect(() => {
-    //     // Setting the state to local storage.
-    //     console.log('Setting the state to local storage.')
-    //     localStorage.setItem('authState', JSON.stringify(authState));
-    //     console.log('State set to local storage.', localStorage.getItem('authState'))
-    // }, [authState])
-
     return <AuthContext.Provider value={{
         authState,
         setAuthState
