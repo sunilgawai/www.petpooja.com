@@ -14,34 +14,30 @@ interface IAuthContextProps {
 const AuthContext = createContext<IAuthContextProps>({} as IAuthContextProps);
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-    const [authState, setAuthState] = useState<IAuthState>({
-        username: '',
-        jwt_token: ''
-    });
+    const [authState, setAuthState] = useState<IAuthState>({} as IAuthState);
 
     useEffect(() => {
-        // Check for authState,
-        const data = localStorage.getItem('authState');
-        // console.log('data in local', data)
-        if (data == null || data == undefined) return;
-        if (data) {
-            const auth = JSON.parse(data) as IAuthState
+        // get auth state from local storage.
+        const auth = localStorage.getItem('authState');
+        if (auth) {
+            const _authState = JSON.parse(auth) as IAuthState;
+            console.log('from local storage', _authState);
             setAuthState({
                 ...authState,
-                username: auth.username,
-                jwt_token: auth.jwt_token
+                jwt_token: _authState.jwt_token,
+                username: _authState.username
             });
-            // console.log('authState changed', authState)
+            console.log('stored to state')
         }
-        // console.log('auth', authState)
-    }, []);
+        console.log('stored state not found')
+    }, [])
 
-    useEffect(() => {
-        // Save to localStorage.
-        localStorage.setItem('authState', JSON.stringify(authState));
-        // console.log('auth', authState)
-    }, [authState]);
-
+    // useEffect(() => {
+    //     // Setting the state to local storage.
+    //     console.log('Setting the state to local storage.')
+    //     localStorage.setItem('authState', JSON.stringify(authState));
+    //     console.log('State set to local storage.', localStorage.getItem('authState'))
+    // }, [authState])
 
     return <AuthContext.Provider value={{
         authState,

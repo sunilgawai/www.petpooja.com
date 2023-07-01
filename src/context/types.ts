@@ -8,6 +8,7 @@ export interface ICartContextProps {
     activeCart: number
     setActiveCart: React.Dispatch<React.SetStateAction<number>>
     addToCart: (table_id: number, product_id: number, product_price: number, name: string) => void
+    updateCustomerDetails: (table_id: number, cutomer_first_name: string, cutomer_last_name: string, customer_mobile: string) => void
     showOrderForm: boolean
     setShowOrderForm: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -17,6 +18,8 @@ export interface IAppContextProps {
     setCategories: React.Dispatch<React.SetStateAction<ICategory[]>>
     products: IProduct[]
     setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>
+    cartTables: ITable[]
+    setCartTables: React.Dispatch<React.SetStateAction<ITable[]>>
 }
 
 export interface IFilterContextProps {
@@ -38,4 +41,5 @@ export interface IFilterState {
         code: string
     },
     setFilter: (event: React.ChangeEvent<HTMLInputElement>) => void
+    setFilterByCategory: (id: number) => void
 }

@@ -30,22 +30,22 @@ const CartController = () => {
 
     const place_order = () => {
         // Place order.
-            fetch('http://localhost:4000/api/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    shop_code: 'XXXX',
-                    customer_first_name: '',
-                    customer_last_name: '',
-                    customer_phone: '',
-                    orders_price: table.Cart?.total_price,
-                    payment_method: table.Cart?.payment_method,
-                    payment_status: table.Cart?.payment_status,
-                    order_items: table.Cart?.items
-                })
-            }).then((response) => response.json())
+        fetch('http://localhost:4000/api/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                shop_code: 'XXXX',
+                customer_first_name: table.Cart?.customer_first_name,
+                customer_last_name: table.Cart?.customer_last_name,
+                customer_mobile: table.Cart?.customer_mobile,
+                order_price: JSON.stringify(table.Cart?.total_price),
+                payment_method: table.Cart?.payment_method,
+                payment_status: table.Cart?.payment_status ? '1' : '0',
+                order_items: table.Cart?.items
+            })
+        }).then((response) => response.json())
             .then(order => console.log(order))
             .catch((error) => console.log(error))
     }
@@ -110,7 +110,7 @@ const CartController = () => {
                         Medium
                     </button> */}
                     <input data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                    type="checkbox"
+                        type="checkbox"
                         id="radpayment_statusio4"
                         name="payment_status"
                         value="payment_status"

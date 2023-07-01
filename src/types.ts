@@ -8,9 +8,9 @@ export interface ITable {
 }
 
 export interface ICart {
-    customer_first_name?: string;
-    customer_last_name?: string;
-    customer_mobile?: number;
+    customer_first_name: string;
+    customer_last_name: string;
+    customer_mobile: string;
     payment_status: boolean;
     payment_method: string;
     items: ICartItem[];

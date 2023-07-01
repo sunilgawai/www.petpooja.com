@@ -28,18 +28,18 @@ const filterReducer = (state: IFilterState, action: any) => {
             }
         }
 
-        case 'FILTER_CODE_AND_NAME': {
+        case 'FILTER_BY_SEARCH': {
             const { categories } = state;
             let temp_categories = [...categories];
-
             const { name, code } = state.filters;
+
             if (name) {
                 temp_categories = temp_categories.filter(category => {
                     return category.Category_Name.toLocaleLowerCase().includes(name.toLocaleLowerCase());
                 })
             }
 
-            if (name) {
+            if (code) {
                 temp_categories = temp_categories.filter(category => {
                     return category.Category_Code.toLocaleLowerCase().includes(code.toLocaleLowerCase());
                 })
@@ -48,6 +48,13 @@ const filterReducer = (state: IFilterState, action: any) => {
             return {
                 ...state,
                 filtered_categories: temp_categories
+            }
+        }
+
+        case 'FILTERS_PRODUCT_BY_CATEGORY': {
+            // const temp_products = [...state.products];
+            return {
+                ...state
             }
         }
 
@@ -72,7 +79,9 @@ const initFilterState: IFilterState = {
         code: ''
     },
     // eslint-disable-next-line @typescript-eslint/no-empty-function   
-    setFilter: () => { }
+    setFilter: () => { },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    setFilterByCategory: () => { }
 }
 
 const FilterContext = createContext<IFilterState>({} as IFilterState);
@@ -84,10 +93,12 @@ const FilterContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         // Load filtered products.
         // console.log({ LOAD_FILTER_STATE: "LOAD_FILTER_STATE", categories, products })
-        dispatchFilter({ type: 'FILTER_CODE_AND_NAME' })
         dispatchFilter({ type: 'LOAD_FILTER_STATE', payload: { categories, products } });
     }, [categories, products, state.filters])
 
+    useEffect(() => {
+        dispatchFilter({ type: 'FILTER_BY_SEARCH' })
+    }, [state.filters])
 
     const setFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -95,9 +106,15 @@ const FilterContextProvider = ({ children }: { children: ReactNode }) => {
         return dispatchFilter({ type: 'UPDATE_FILTERS_VALUE', payload: { name, value } })
     }
 
+    const setFilterByCategory = () => {
+        console.log('setFilterByCategory');
+        return dispatchFilter({ type: 'FILTERS_PRODUCT_BY_CATEGORY' });
+    }
+
     return <FilterContext.Provider value={{
         ...state,
-        setFilter: setFilter
+        setFilter: setFilter,
+        setFilterByCategory: setFilterByCategory
     }}>
         {children}
     </FilterContext.Provider>

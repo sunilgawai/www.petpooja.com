@@ -29,7 +29,7 @@ const LoginForm = () => {
                     username: response.data.username,
                     jwt_token: response.data.jwt_token
                 })
-                console.log('auth state changed', authState);
+                // console.log('auth state changed', authState);
                 navigate('/');
                 return;
                 // if (!response.ok) {

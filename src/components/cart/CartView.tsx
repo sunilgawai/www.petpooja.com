@@ -17,8 +17,8 @@ const CartView: FC = () => {
     return (
         <div className="table-item-total">
             <div className="table-rasponsibe">
-                <table className="table">
-                    <thead>
+                <table className="table border table-bordered">
+                    <thead className="">
                         <tr>
                             <th scope="col">Item</th>
                             <th scope="col">Check Items</th>

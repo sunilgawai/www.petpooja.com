@@ -2,7 +2,7 @@ import { useFilterContext } from "../../context";
 
 const SearchBar = () => {
     const { filters, setFilter } = useFilterContext();
-    // const { code, name } = filters;
+    const { code, name } = filters;
 
     return (
         <div className="search-topbar">
@@ -12,8 +12,8 @@ const SearchBar = () => {
                         <div className="col-auto search-icon">
                             <input type="text"
                                 name="name"
-                                // value={name}
-                                onChange={(event) => setFilter(event)}
+                                value={name}
+                                onChange={setFilter}
                                 className="form-control"
                                 placeholder="search Item" />
                         </div>
@@ -22,8 +22,8 @@ const SearchBar = () => {
                         <div className="col-auto">
                             <input type="text"
                                 name="code"
-                                // value={code}
-                                onChange={(event) => setFilter(event)}
+                                value={code}
+                                onChange={setFilter}
                                 className="form-control"
                                 placeholder="Short Code" />
                         </div>
