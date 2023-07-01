@@ -8,10 +8,13 @@ export interface ITable {
 }
 
 export interface ICart {
-    customer_id: number;
+    customer_first_name?: string;
+    customer_last_name?: string;
+    customer_mobile?: number;
     payment_status: boolean;
     payment_method: string;
     items: ICartItem[];
+    total_price: number
 }
 
 export interface ICartItem {

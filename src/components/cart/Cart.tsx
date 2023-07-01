@@ -1,9 +1,9 @@
 import CartController from "./CartController";
 import CartView from "./CartView";
 import Tables from "./Tables";
-
+import { useState } from "react";
 const Cart = () => {
-
+   
     return (
         <div className="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div className="dine-tab">
@@ -16,6 +16,9 @@ const Cart = () => {
                 </ul>
                 <div className="dine-button"><a href="#" className="btn">Dine In</a></div>
             </div>
+            {/* Model for Order place data  */}
+            {/* <Model /> */}
+            
             <CartView />
             <CartController />
         </div>

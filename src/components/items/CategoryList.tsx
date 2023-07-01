@@ -1,17 +1,16 @@
-import { useAppContext } from "../../context";
+import { useAppContext, useFilterContext } from "../../context";
 import Category from "./Category";
 
 const CategoryList = () => {
     const { categories } = useAppContext();
-    // const { categories } = useFilterContext();
-    // console.log("Category", categories)
+    const { filtered_categories } = useFilterContext();
 
     return (
         <nav style={{ maxWidth: '200px' }}>
             <div className="nav nav-tabs mb-3" id="nav-tab" role="tablist">
 
                 {
-                    categories
+                    filtered_categories
                         .map(category => <Category
                             category={category}
                             key={category.Category_Id} />)

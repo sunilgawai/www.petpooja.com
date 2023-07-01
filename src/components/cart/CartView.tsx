@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useCartContext } from "../../context";
 import { ITable } from "../../types";
-import CartItem from "./CartItem";
 import CartItemList from "./CartItemList";
 
 const CartView: FC = () => {
@@ -21,10 +20,10 @@ const CartView: FC = () => {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Item</th>
-                            <th>Check Items</th>
-                            <th>QTY.</th>
-                            <th>Price</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Check Items</th>
+                            <th scope="col">QTY.</th>
+                            <th scope="col">Price</th>
                         </tr>
                     </thead>
                     <tbody>

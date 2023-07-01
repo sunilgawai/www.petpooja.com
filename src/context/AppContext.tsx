@@ -20,6 +20,7 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
         fetch('http://localhost:4000/api/products')
             .then(res => res.json())
             .then(data => {
+                // console.log(data[0])
                 setProducts(data);
             })
             .catch(err => console.log(err))

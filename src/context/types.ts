@@ -7,7 +7,7 @@ export interface ICartContextProps {
     setCart: React.Dispatch<React.SetStateAction<ICart | null>>
     activeCart: number
     setActiveCart: React.Dispatch<React.SetStateAction<number>>
-    addToCart: (table_id: number, product_id: number, name: string) => void
+    addToCart: (table_id: number, product_id: number, product_price: number, name: string) => void
 }
 
 export interface IAppContextProps {
@@ -35,6 +35,5 @@ export interface IFilterState {
         name: string,
         code: string
     },
-    setFilterText: (event: Event) => void
-    setFilterCode: (event: Event) => void
+    setFilter: (event: React.ChangeEvent<HTMLInputElement>) => void
 }

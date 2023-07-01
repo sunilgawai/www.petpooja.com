@@ -1,35 +1,55 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-const AuthContext = createContext({});
+
+interface IAuthState {
+    username: string;
+    jwt_token: string;
+}
+
+interface IAuthContextProps {
+    authState: IAuthState
+    setAuthState: React.Dispatch<React.SetStateAction<IAuthState>>
+}
+
+const AuthContext = createContext<IAuthContextProps>({} as IAuthContextProps);
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-    const [authState, setAuthState] = useState<{
-        username: string;
-        jwt_token: string;
-    }>({
+    const [authState, setAuthState] = useState<IAuthState>({
         username: '',
         jwt_token: ''
     });
 
     useEffect(() => {
-        // fetch('http://localhost:4000/api/auth/login')
-        //     .then(response => response.json())
-        //     .then(response => {
-        //         console.log(response);
-        //     })
-        //     .catch(err => console.log(err))
+        // Check for authState,
+        const data = localStorage.getItem('authState');
+        // console.log('data in local', data)
+        if (data == null || data == undefined) return;
+        if (data) {
+            const auth = JSON.parse(data) as IAuthState
+            setAuthState({
+                ...authState,
+                username: auth.username,
+                jwt_token: auth.jwt_token
+            });
+            // console.log('authState changed', authState)
+        }
+        // console.log('auth', authState)
     }, []);
 
     useEffect(() => {
-        const data = localStorage.getItem('authState');
-        if (data) {
-            setAuthState(JSON.parse(data));
+        // Save to localStorage.
+        localStorage.setItem('authState', JSON.stringify(authState));
+        // console.log('auth', authState)
+    }, [authState]);
+
+
+    return <AuthContext.Provider value={{
+        authState,
+        setAuthState
+    }}>
+        {
+            children
         }
-    }, []);
-
-
-    return <AuthContext.Provider value={{}}>
-        {children}
     </AuthContext.Provider>
 }
 

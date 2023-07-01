@@ -7,10 +7,6 @@ const filterReducer = (state: IFilterState, action: any) => {
     switch (action.type) {
         case 'LOAD_FILTER_STATE': {
             const { categories, products } = action.payload;
-
-            // console.log('payload in action.categories ', categories)
-            // console.log('payload in action.products ', products)
-
             return {
                 ...state,
                 categories: [...categories],
@@ -21,9 +17,37 @@ const filterReducer = (state: IFilterState, action: any) => {
         }
 
         case 'UPDATE_FILTERS_VALUE': {
+            console.log('paylod', action.payload)
+            const { name, value } = action.payload;
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    [name]: value
+                }
+            }
+        }
+
+        case 'FILTER_CODE_AND_NAME': {
+            const { categories } = state;
+            let temp_categories = [...categories];
+
+            const { name, code } = state.filters;
+            if (name) {
+                temp_categories = temp_categories.filter(category => {
+                    return category.Category_Name.toLocaleLowerCase().includes(name.toLocaleLowerCase());
+                })
+            }
+
+            if (name) {
+                temp_categories = temp_categories.filter(category => {
+                    return category.Category_Code.toLocaleLowerCase().includes(code.toLocaleLowerCase());
+                })
+            }
 
             return {
-                ...state
+                ...state,
+                filtered_categories: temp_categories
             }
         }
 
@@ -47,12 +71,8 @@ const initFilterState: IFilterState = {
         name: '',
         code: ''
     },
-    setFilterCode(event) {
-        //  TODO:
-    },
-    setFilterText(event) {
-        // TODO
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function   
+    setFilter: () => { }
 }
 
 const FilterContext = createContext<IFilterState>({} as IFilterState);
@@ -64,22 +84,20 @@ const FilterContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         // Load filtered products.
         // console.log({ LOAD_FILTER_STATE: "LOAD_FILTER_STATE", categories, products })
+        dispatchFilter({ type: 'FILTER_CODE_AND_NAME' })
         dispatchFilter({ type: 'LOAD_FILTER_STATE', payload: { categories, products } });
-    }, [categories, products])
+    }, [categories, products, state.filters])
 
-    useEffect(() => {
-        // 
-    }, [state.filters])
 
-    // const setFiltersText = (event: any) => {
-    //     / /
-    // }
-    // const setFiltersCode = (event: any) => {
-    //     / /
-    // }
+    const setFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        // console.log(name, value)
+        return dispatchFilter({ type: 'UPDATE_FILTERS_VALUE', payload: { name, value } })
+    }
 
     return <FilterContext.Provider value={{
-        ...state
+        ...state,
+        setFilter: setFilter
     }}>
         {children}
     </FilterContext.Provider>

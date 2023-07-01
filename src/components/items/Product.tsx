@@ -12,7 +12,7 @@ const Product: FC<ProductProps> = ({ product }) => {
     return (
         <li>
             <Link
-                onClick={() => addToCart(activeCart, product.id, product.Item_Name)}
+                onClick={() => addToCart(activeCart, product.id, product.id, product.Item_Name)}
                 to="#"
                 className="active">
                 {product.Item_Name}

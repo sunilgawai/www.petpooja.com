@@ -1,7 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCartContext } from "../../context";
+import { ITable } from "../../types";
 
 const CartController = () => {
     const [open, setOpen] = useState(false);
+    const { activeCart, cartT̥ables, setCartTables } = useCartContext();
+    const [table, setTable] = useState<ITable>({} as ITable);
+
+
+    useEffect(() => {
+        const table_number = cartT̥ables.findIndex(table => table.id === activeCart);
+        setTable(cartT̥ables[table_number])
+        console.log('table', table?.Cart);
+    }, [activeCart, cartT̥ables])
+
+    const update_cart = (payment_method: string, payment_status = false) => {
+        console.log(payment_method, payment_status)
+        setCartTables((prev_tables) => {
+            const updated_tables = [...prev_tables];
+            const table = updated_tables.find(table => table.id === activeCart);
+            const cart = table?.Cart;
+            if (cart) {
+                cart.payment_method = payment_method;
+                cart.payment_status = payment_status;
+            }
+            console.log('product Quantity increased successfully', updated_tables);
+            return updated_tables;
+        })
+    }
+
+    const place_order = () => {
+        // Place order.
+            fetch('https://localhost:4000/api/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    shop_code: 'XXXX',
+                    customer_first_name: '',
+                    customer_last_name: '',
+                    customer_phone: '',
+                    orders_price: table.Cart?.total_price,
+                    payment_method: table.Cart?.payment_method,
+                    payment_status: table.Cart?.payment_status,
+                    order_items: table.Cart?.items
+                })
+            }).then((response) => response.json())
+            .then(order => console.log(order))
+            .catch((error) => console.log(error))
+    }
 
     return (
         <div onClick={() => setOpen(!open)} className={`${open ? 'open' : ''} bottom-select-menu`}>
@@ -9,38 +57,64 @@ const CartController = () => {
             <div className="menu-total">
                 <a href="#" className="btn">Spit</a>
 
-                <div className="total-text">Total <span>0</span></div>
+                <div className="total-text">Total <span>{table.Cart?.total_price}</span></div>
             </div>
 
             <div className="menu-radio">
                 <label className="radio">
-                    <input type="radio" id="radio1" name="radio1" value="RadioButton1" />
+                    <input type="radio"
+                        id="CASH"
+                        name="payment_method"
+                        value="CASH"
+                        onChange={(e) => update_cart(e.target.value, false)} />
                     <span>Cash</span>
                 </label>
 
                 <label className="radio">
-                    <input type="radio" id="radio2" name="radio1" value="RadioButton2" />
+                    <input type="radio"
+                        id="CARD"
+                        name="payment_method"
+                        value="CARD"
+                        onChange={(e) => update_cart(e.target.value, false)} />
                     <span>Card</span>
                 </label>
                 <label className="radio">
-                    <input type="radio" id="radio3" name="radio1" value="RadioButton3" />
+                    <input type="radio"
+                        id="DUE"
+                        name="payment_method"
+                        value="DUE"
+                        onChange={(e) => update_cart(e.target.value, false)} />
                     <span>Due</span>
                 </label>
 
                 <label className="radio">
-                    <input type="radio" id="radio4" name="radio1" value="RadioButton4" />
+                    <input type="radio"
+                        id="OTHER"
+                        name="payment_method"
+                        value="OTHER"
+                        onChange={(e) => update_cart(e.target.value, false)} />
                     <span>Other</span>
                 </label>
                 <label className="radio">
-                    <input type="radio" id="radio4" name="radio1" value="RadioButton5" />
+                    <input type="radio"
+                        id="PART"
+                        name="payment_method"
+                        value="PART"
+                        onChange={(e) => update_cart(e.target.value, false)} />
                     <span>Part</span>
                 </label>
             </div>
 
-
             <div className="menu-check-box">
                 <label className="checkbox">
-                    <input type="checkbox" id="radio4" name="radio1" value="RadioButton5" />
+                    {/* <button type="button" className="btn btn-primary mb-2" data-mdb-toggle="modal" data-mdb-target="#exampleCentralModal2" style={{}}>
+                        Medium
+                    </button> */}
+                    <input type="checkbox"
+                        id="radpayment_statusio4"
+                        name="payment_status"
+                        value="payment_status"
+                        onChange={() => place_order()} />
                     <span>It's Paid</span>
                 </label>
             </div>
