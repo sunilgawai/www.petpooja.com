@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FilterContextProvider } from "./context/FilterContext";
 import { AppContextProvider } from "./context/AppContext";
-import { CartContextProvider } from "./context/CartContext";
+import { CartContextProvider } from "./context/CartContextOld";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { AuthContextProvider } from "./context/AuthContext";

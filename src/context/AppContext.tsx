@@ -7,7 +7,7 @@ const AppContext = createContext<IAppContextProps>({} as IAppContextProps);
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [products, setProducts] = useState<IProduct[]>([]);
-    const [cartTables, setCartTables] = useState<ITable[]>([]);
+    const [tables, setTables] = useState<ITable[]>([]);
 
     useEffect(() => {
         fetch("http://localhost:4000/api/categories")
@@ -28,8 +28,8 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
             .then(res => res.json())
             .then(data => {
                 console.log('tables from server', data);
-                setCartTables(data);
-                console.log(cartTables);
+                setTables(data);
+                console.log(tables);
             })
             .catch(err => console.log(err))
     }, [])
@@ -37,7 +37,7 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
     // Return a table for cart operations.
     // const useTable = (id: number) => {
     //     console.log('table id', id);
-    //     const table = cartTables.find(t => t.id === id);
+    //     const table = tables.find(t => t.id === id);
     //     if (!table) return;
     //     setActiveTable(table);
     // }
@@ -47,8 +47,8 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
         setCategories,
         products,
         setProducts,
-        cartTables,
-        setCartTables
+        tables,
+        setTables
     }}>
         {children}
     </AppContext.Provider>

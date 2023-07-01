@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AppContext } from "./AppContext";
 import { FilterContext } from './FilterContext';
 import { IFilterState } from './types';
-import { CartContext } from './CartContext';
+import { CartContext } from './CartContextOld';
 import { AuthContext } from './AuthContext';
 
 export const useAppContext = () => useContext(AppContext);
