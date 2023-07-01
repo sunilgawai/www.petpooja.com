@@ -8,6 +8,8 @@ export interface ICartContextProps {
     activeCart: number
     setActiveCart: React.Dispatch<React.SetStateAction<number>>
     addToCart: (table_id: number, product_id: number, product_price: number, name: string) => void
+    showOrderForm: boolean
+    setShowOrderForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface IAppContextProps {

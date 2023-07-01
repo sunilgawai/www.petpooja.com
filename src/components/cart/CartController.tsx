@@ -7,7 +7,6 @@ const CartController = () => {
     const { activeCart, cartT̥ables, setCartTables } = useCartContext();
     const [table, setTable] = useState<ITable>({} as ITable);
 
-
     useEffect(() => {
         const table_number = cartT̥ables.findIndex(table => table.id === activeCart);
         setTable(cartT̥ables[table_number])
@@ -31,7 +30,7 @@ const CartController = () => {
 
     const place_order = () => {
         // Place order.
-            fetch('https://localhost:4000/api/order', {
+            fetch('http://localhost:4000/api/order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -110,7 +109,8 @@ const CartController = () => {
                     {/* <button type="button" className="btn btn-primary mb-2" data-mdb-toggle="modal" data-mdb-target="#exampleCentralModal2" style={{}}>
                         Medium
                     </button> */}
-                    <input type="checkbox"
+                    <input data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    type="checkbox"
                         id="radpayment_statusio4"
                         name="payment_status"
                         value="payment_status"

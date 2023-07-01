@@ -1,5 +1,5 @@
 import LoginForm from "../components/auth/LoginForm";
-import lockScreen from "/public/img/LockScreen.png";
+import lockScreen from "/public/img/lock-screen.png";
 const Login = () => {
     return (
         <div style={{

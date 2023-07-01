@@ -4,6 +4,7 @@ import ProductList from '../components/items/ProductList';
 import Cart from '../components/cart/Cart';
 import Model from '../components/delivery/Model';
 import Header from '../components/header/Header';
+import OrderForm from '../components/delivery/OrderForm';
 
 const Home = () => {
 
@@ -51,7 +52,7 @@ const Home = () => {
 
                     {/* Cart Section  */}
                     <Cart />
-
+                    <OrderForm />
                     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                       <p><strong>This is some placeholder content the Profile tab's associated content.</strong>
                         Clicking another tab will toggle the visibility of this one for the next.

@@ -90,26 +90,18 @@ const LoginForm = () => {
                             <label className="form-control-placeholder my-2" htmlFor="password">
                                 Password
                             </label>
-                            {/* <span className="fa fa-fw fa-eye field-icon toggle-password mx-2"></span> */}
                         </div>
                         <div className="form-group">
                             <button type="submit" className="form-control btn btn-primary rounded submit px-3">
                                 Log In
                             </button>
+                            {/* <button className="btn btn-primary" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button> */}
+
                         </div>
-                        {/* <div className="form-group d-md-flex">
-                            <div className="w-50 text-left">
-                                <label className="checkbox-wrap checkbox-primary mb-0">Remember Me
-                                    <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                </label>
-                            </div>
-                            <div className="w-50 text-md-right">
-                                <a href="#">Forgot Password</a>
-                            </div>
-                        </div> */}
                     </form>
-                    {/* <p className="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p> */}
                 </div>
             </div>
         </>

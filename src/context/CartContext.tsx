@@ -8,6 +8,7 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
     const [cartT̥ables, setCartTables] = useState<ITable[]>([]);
     const [cart, setCart] = useState<ICart | null>(null);
     const [activeCart, setActiveCart] = useState(1); // Cart ID
+    const [showOrderForm, setShowOrderForm] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:4000/api/cart')
@@ -54,7 +55,7 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
                         item_id: product_id,
                         quantity: 1
                     }],
-                    total_price: 0
+                    total_price: product_price
                 }
             }
             console.log('table updated successfully', updated_tables);
@@ -89,7 +90,9 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         setCart,
         activeCart,
         setActiveCart,
-        addToCart
+        addToCart,
+        showOrderForm,
+        setShowOrderForm
     }}>
         {children}
     </CartContext.Provider>

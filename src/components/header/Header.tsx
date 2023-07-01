@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const Header = () => {
     return (
@@ -8,9 +9,10 @@ const Header = () => {
                     <div className="col-lg-7">
                         <div className="header-lft">
                             <div className="menu-iocn">
-                                <Link to="3">
+                                {/* <Link to="#">
                                     <img src="img/menu-icon.png" alt="menu-icon" />
-                                </Link>
+                                </Link> */}
+                                <Sidebar />
                             </div>
 
                             <div className="logo"><Link to="#">
@@ -32,14 +34,14 @@ const Header = () => {
                             </div>
 
                             <ul>
-                                <li><Link to="#"><img src="/img/icon01.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon02.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon03.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon05.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon06.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon07.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon08.png" alt=""/></Link></li>
-                                <li><Link to="#"><img src="/img/icon09.png" alt=""/></Link></li>
+                                <li><Link to="#"><img src="/img/icon01.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon02.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon03.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon05.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon06.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon07.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon08.png" alt="" /></Link></li>
+                                <li><Link to="#"><img src="/img/icon09.png" alt="" /></Link></li>
                             </ul>
                         </div>
                     </div>
