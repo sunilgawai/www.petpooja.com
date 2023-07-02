@@ -6,6 +6,7 @@ const CartController = () => {
     const [open, setOpen] = useState(false);
     const { activeCart, cartT̥ables, setCartTables } = useCartContextOld();
     const [table, setTable] = useState<ITable>({} as ITable);
+    // const 
 
     useEffect(() => {
         const table_number = cartT̥ables.findIndex(table => table.id === activeCart);
@@ -28,6 +29,18 @@ const CartController = () => {
         })
     }
 
+    const reset_cart = (id: number) => {
+        setCartTables((prev_tables) => {
+            const updated_tables = [...prev_tables];
+            const table = updated_tables.find(table => table.id === id);
+            if (table) {
+                table.Cart = null;
+            }
+            console.log('product Quantity reset successfully', updated_tables);
+            return updated_tables;
+        })
+    }
+
     const place_order = () => {
         // Place order.
         fetch('http://localhost:4000/api/order', {
@@ -46,8 +59,12 @@ const CartController = () => {
                 order_items: table.Cart?.items
             })
         }).then((response) => response.json())
-            .then(order => console.log(order))
-            .catch((error) => console.log(error))
+            .then(order => {
+                console.log(order);
+                setOpen(false);
+                reset_cart(activeCart);
+            })
+            .catch((error) => console.log(error.message));
     }
 
     return (
@@ -56,7 +73,7 @@ const CartController = () => {
             <div className="menu-total">
                 <a href="#" className="btn">Spit</a>
 
-                <div className="total-text">Total <span>{ 0}</span></div>
+                <div className="total-text">Total <span>{0}</span></div>
             </div>
 
             <div className="menu-radio">
@@ -109,7 +126,7 @@ const CartController = () => {
                     {/* <button type="button" className="btn btn-primary mb-2" data-mdb-toggle="modal" data-mdb-target="#exampleCentralModal2" style={{}}>
                         Medium
                     </button> */}
-                    <input data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    <input
                         type="checkbox"
                         id="radpayment_statusio4"
                         name="payment_status"

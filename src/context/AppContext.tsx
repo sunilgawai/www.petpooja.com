@@ -1,13 +1,12 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { IAppContextProps } from "./types";
-import { ICategory, IProduct, ITable } from "../types";
+import { ICategory, IProduct } from "../types";
 
 const AppContext = createContext<IAppContextProps>({} as IAppContextProps);
 
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [products, setProducts] = useState<IProduct[]>([]);
-    const [tables, setTables] = useState<ITable[]>([]);
 
     useEffect(() => {
         fetch("http://localhost:4000/api/categories")
@@ -22,14 +21,6 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
             .then(data => {
                 // console.log(data[0])
                 setProducts(data);
-            })
-            .catch(err => console.log(err))
-        fetch('http://localhost:4000/api/cart')
-            .then(res => res.json())
-            .then(data => {
-                console.log('tables from server', data);
-                setTables(data);
-                console.log(tables);
             })
             .catch(err => console.log(err))
     }, [])
@@ -47,8 +38,6 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
         setCategories,
         products,
         setProducts,
-        tables,
-        setTables
     }}>
         {children}
     </AppContext.Provider>

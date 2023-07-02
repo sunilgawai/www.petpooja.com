@@ -18,8 +18,8 @@ export interface IAppContextProps {
     setCategories: React.Dispatch<React.SetStateAction<ICategory[]>>
     products: IProduct[]
     setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>
-    tables: ITable[]
-    setTables: React.Dispatch<React.SetStateAction<ITable[]>>
+    // tables: ITable[]
+    // setTables: React.Dispatch<React.SetStateAction<ITable[]>>
 }
 
 export interface IFilterContextProps {

@@ -1,8 +1,7 @@
-import { useCartContext } from "../../context";
+import { useCartContextOld } from "../../context";
 import { useState } from "react";
 const CustomerDetails = () => {
-    const { updateCustomerDetails, activeCart } = useCartContext();
-
+    const { updateCustomerDetails, activeCart } = useCartContextOld();
 
     const [customer, setCustomer] = useState({
         customer_first_name: '',
@@ -12,6 +11,11 @@ const CustomerDetails = () => {
 
     const update = () => {
         updateCustomerDetails(activeCart, customer.customer_first_name, customer.customer_last_name, customer.customer_mobile);
+        setCustomer({
+            customer_first_name: '',
+            customer_last_name: '',
+            customer_mobile: ''
+        })
     }
 
 
@@ -22,6 +26,7 @@ const CustomerDetails = () => {
                     data-bs-backdrop="static" data-bs-keyboard="false"
                     tabIndex={-1} aria-labelledby="staticBackdropLabel"
                     aria-hidden="true">
+                    
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -31,7 +36,11 @@ const CustomerDetails = () => {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <form onSubmit={(e) => e.preventDefault()}>
+                                <form onSubmit={(e) => {
+                                    e.preventDefault()
+                                    update();
+                                }
+                                }>
                                     <input
                                         type="text"
                                         value={customer.customer_first_name}
@@ -68,16 +77,12 @@ const CustomerDetails = () => {
                                         placeholder="customer's phone number"
                                         required
                                         aria-label="Username"></input>
-                                    <button className="btn btn-primary w-50 fs-lg">
+                                    <button className="btn btn-primary w-50 fs-lg" data-bs-dismiss="modal">
                                         Update details.
                                     </button>
                                 </form>
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                    close
-                                </button>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

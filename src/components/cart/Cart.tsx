@@ -1,10 +1,9 @@
-import { useCartContext } from "../../context";
 import CartController from "./CartController";
 import CartView from "./CartView";
 import Tables from "./Tables";
 
 const Cart = () => {
-    // const { cartTables, activeTable } = useCartContext();
+
 
     return (
         <div className="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -21,8 +20,6 @@ const Cart = () => {
                 </ul>
                 <div className="dine-button"><a href="#" className="btn">Dine In</a></div>
             </div>
-            {/* Model for Order place data  */}
-            {/* <Model /> */}
 
             <CartView />
             <CartController />

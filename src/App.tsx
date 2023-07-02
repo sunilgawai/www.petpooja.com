@@ -5,6 +5,7 @@ import { CartContextOldProvider } from "./context/CartContextOld";
 import { CartContextProvider } from "./context/CartContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Orders from "./pages/Orders";
 import { AuthContextProvider } from "./context/AuthContext";
 import Protected from "./components/Protected";
 
@@ -21,7 +22,7 @@ const App = () => {
                 <Router>
                   <Routes>
                     <Route path="/" element={<Protected children={<Home />} />} />
-                    <Route path="/orders" element={<Protected children={<Home />} />} />
+                    <Route path="/orders" element={<Protected children={<Orders />} />} />
                     <Route path="/auth/login" element={<Login />} />
                   </Routes>
                 </Router>

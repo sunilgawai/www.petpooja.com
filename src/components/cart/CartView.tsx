@@ -37,6 +37,7 @@ const CartView: FC = () => {
                                             : null
                                     }
                                 </>
+                                
                                 :
                                 <tr>
                                     {/* <div className="no-item"> */}

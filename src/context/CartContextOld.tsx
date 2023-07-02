@@ -45,9 +45,14 @@ const CartContextOldProvider = ({ children }: { children: ReactNode }) => {
             if (table === undefined) {
                 table = {} as ITable;
             }
-            const cart = table?.Cart;
+            const cart = table?.Cart as ICart;
             if (cart) {
+                console.log('add to cart', cart)
+                if (!cart.items) {
+                    cart.items = [];
+                }
                 const existingProduct = cart.items.find((item) => item.item_id === product_id);
+                console.log('existing product', existingProduct);
                 if (existingProduct) {
                     existingProduct.quantity += 1;
                     cart.total_price += product_price;

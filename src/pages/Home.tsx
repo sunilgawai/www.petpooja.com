@@ -1,7 +1,8 @@
 import SearchBar from '../components/header/SearchBar';
 import CategoryList from '../components/items/CategoryList';
 import ProductList from '../components/items/ProductList';
-import Cart from '../components/cart/Cart';
+// import Cart from '../components/cart/Cart';
+import Cart from '../components/logistics/Cart';
 import Header from '../components/header/Header';
 import CustomerDetails from '../components/delivery/CustomerDetails';
 
@@ -51,6 +52,8 @@ const Home = () => {
 
                     {/* Cart Section  */}
                     <Cart />
+
+
                     <CustomerDetails />
                     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                       <p><strong>This is some placeholder content the Profile tab's associated content.</strong>

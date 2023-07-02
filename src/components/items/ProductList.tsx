@@ -22,6 +22,15 @@ const ProductList = () => {
             {
               products.map((product) => <Product product={product} key={product.Item_Code} />)
             }
+            {
+              products.map((product) => <Product product={product} key={product.Item_Code} />)
+            }
+            {
+              products.map((product) => <Product product={product} key={product.Item_Code} />)
+            }
+            {
+              products.map((product) => <Product product={product} key={product.Item_Code} />)
+            }
           </ul>
         </div>
       </div>
