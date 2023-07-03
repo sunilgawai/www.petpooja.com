@@ -1,23 +1,8 @@
-import { useCartContextOld } from "../../context";
-import { useState } from "react";
-const CustomerDetails = () => {
-    const { updateCustomerDetails, activeCart } = useCartContextOld();
-
-    const [customer, setCustomer] = useState({
-        customer_first_name: '',
-        customer_last_name: '',
-        customer_mobile: ''
-    });
-
-    const update = () => {
-        updateCustomerDetails(activeCart, customer.customer_first_name, customer.customer_last_name, customer.customer_mobile);
-        setCustomer({
-            customer_first_name: '',
-            customer_last_name: '',
-            customer_mobile: ''
-        })
-    }
-
+import { FC } from "react";
+type Props = {
+    handleOrderForm: (event: any) => void
+}
+const CustomerDetails: FC<Props> = ({ handleOrderForm }) => {
 
     return (
         <>
@@ -26,7 +11,7 @@ const CustomerDetails = () => {
                     data-bs-backdrop="static" data-bs-keyboard="false"
                     tabIndex={-1} aria-labelledby="staticBackdropLabel"
                     aria-hidden="true">
-                    
+
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -37,52 +22,41 @@ const CustomerDetails = () => {
                             </div>
                             <div className="modal-body">
                                 <form onSubmit={(e) => {
-                                    e.preventDefault()
-                                    update();
+                                    e.preventDefault
                                 }
                                 }>
                                     <input
                                         type="text"
-                                        value={customer.customer_first_name}
-                                        onChange={(e) => setCustomer({
-                                            ...customer,
-                                            customer_first_name: e.target.value
-                                        })}
                                         name="customer_first_name"
-                                        className="form-control w-50 center my-4 text-center "
+                                        className="form-control w-100 center my-4 text-center "
                                         placeholder="customer's first name"
                                         required
-                                        aria-label="Username"></input>
+                                        aria-label="Username"
+                                        onChange={handleOrderForm}></input>
                                     <input
                                         type="text"
-                                        value={customer.customer_last_name}
-                                        onChange={(e) => setCustomer({
-                                            ...customer,
-                                            customer_last_name: e.target.value
-                                        })}
                                         name="customer_last_name"
-                                        className="form-control w-50 center my-4 text-center "
+                                        className="form-control w-100 center my-4 text-center "
                                         placeholder="customer's last name"
                                         required
-                                        aria-label="Username"></input>
+                                        aria-label="Username"
+                                        onChange={handleOrderForm}></input>
                                     <input
                                         type="text"
-                                        value={customer.customer_mobile}
-                                        onChange={(e) => setCustomer({
-                                            ...customer,
-                                            customer_mobile: e.target.value
-                                        })}
                                         name="customer_mobile"
-                                        className="form-control w-50 center my-4 text-center "
+                                        className="form-control w-100 center my-4 text-center "
                                         placeholder="customer's phone number"
                                         required
-                                        aria-label="Username"></input>
-                                    <button className="btn btn-primary w-50 fs-lg" data-bs-dismiss="modal">
+                                        aria-label="Username"
+                                        onChange={handleOrderForm}></input>
+                                    <button
+                                        onClick={(e) => e.preventDefault()}
+                                        className="btn btn-primary w-50 fs-lg"
+                                        data-bs-dismiss="modal">
                                         Update details.
                                     </button>
                                 </form>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

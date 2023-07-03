@@ -3,11 +3,11 @@ import { FilterContextProvider } from "./context/FilterContext";
 import { AppContextProvider } from "./context/AppContext";
 import { CartContextOldProvider } from "./context/CartContextOld";
 import { CartContextProvider } from "./context/CartContext";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Orders from "./pages/Orders";
 import { AuthContextProvider } from "./context/AuthContext";
-import Protected from "./components/Protected";
+import Protected from "./components/auth/Protected";
+import Orders from "./pages/Orders";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 const App = () => {
 

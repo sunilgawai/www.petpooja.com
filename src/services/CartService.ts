@@ -15,7 +15,7 @@ class CartService {
         return { cartTables };
     }
 
-    static storeCartToDatabase = (cart: ICart, setCart:string) => {
+    static storeCartToDatabase = (cart: ICart, setCart: string) => {
         return;
         // fetch(`${this.BASE_URL}/api/cart`, {
         //     method: 'POST',
@@ -28,6 +28,27 @@ class CartService {
         // .catch((error)=> console.log(error));
         // return;
     };
+
+    static emptyCart = (id: number) => {
+        try {
+            fetch(`${this.BASE_URL}/api/cart/:{id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.status !== 200) {
+                    return false;
+                }
+            }).then(response => {
+                console.log('Cart Deleted', response)
+            }).catch(error => {
+                console.log('error', error)
+            })
+        } catch (error) {
+            return null;
+        }
+    }
 }
 
 export default CartService;

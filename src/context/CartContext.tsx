@@ -9,6 +9,9 @@ interface ICartContextProps {
     storeCart: (product_id: number, product_price: number, name: string) => void
     updateCart: (payment_method: string, payment_status?: string) => void
     updateCustomer: (customer_first_name: string, customer_last_name: string, customer_mobile: string) => void
+    increaseQty: (id: number) => void
+    decreaseQty: (id: number) => void
+    removeFromCart: (id: number) => void
 }
 
 const CartContext = createContext<ICartContextProps>({} as ICartContextProps);
@@ -154,6 +157,67 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         setActiveTable(table);
     }
 
+    const increaseQty = (id: number) => {
+        // increase the quantity of the items.
+        const table = structuredClone(activeTable);
+        const cart = table?.Cart;
+        if (cart) {
+            const index = cart.Cart_items.findIndex(item => item.itemmaster_id === id);
+            if (index !== -1) {
+                cart.Cart_items[index].quantity += 1;
+            }
+            console.log("increase quantity", cart.Cart_items[index]);
+        }
+        setActiveTable(table);
+        // storeToDB(table)
+    }
+
+    const removeFromCart = (id: number) => {
+        console.log('id', id);
+        // setCartTables(prevTables => {
+        //     return prevTables.map(table => {
+        //         if (table.id === activeTable.id) {
+        //             const updatedCartItems = table.Cart.Cart_items.filter(item => item.id !== id);
+        //             return {
+        //                 ...table,
+        //                 Cart: {
+        //                     ...table.Cart,
+        //                     Cart_items: updatedCartItems
+        //                 }
+        //             };
+        //         }
+        //         return table;
+        //     });
+        // })
+        console.log('pre items', activeTable.Cart.Cart_items)
+        const filtered = activeTable.Cart.Cart_items.filter((item) => item.itemmaster_id !== id)
+        setActiveTable({
+            ...activeTable,
+            Cart: {
+                ...activeTable.Cart,
+                Cart_items: [...filtered]
+            }
+        })
+        console.log('new items loaded', activeTable.Cart.Cart_items)
+    }
+
+    const decreaseQty = (id: number) => {
+        // increase the quantity of the items.
+        const table = structuredClone(activeTable);
+        const cart = table?.Cart;
+        if (cart) {
+            const index = cart.Cart_items.findIndex(item => item.itemmaster_id === id);
+            if (index !== -1) {
+                if (cart.Cart_items[index].quantity > 1) {
+                    cart.Cart_items[index].quantity -= 1;
+                }
+            }
+            console.log("increase quantity", cart.Cart_items[index]);
+        }
+        setActiveTable(table);
+        // storeToDB(table)
+    }
+
 
 
     return <CartContext.Provider value={{
@@ -163,7 +227,10 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         setActiveTable,
         storeCart,
         updateCart,
-        updateCustomer
+        updateCustomer,
+        increaseQty,
+        decreaseQty,
+        removeFromCart
     }}>
         {children}
     </CartContext.Provider>
