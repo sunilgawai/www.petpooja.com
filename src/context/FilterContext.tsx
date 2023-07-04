@@ -51,8 +51,9 @@ const filterReducer = (state: IFilterState, action: any) => {
             }
         }
 
-        case 'FILTERS_PRODUCT_BY_CATEGORY': {
+        case 'FILTER_PRODUCTS_BY_CATEGORY': {
             // const temp_products = [...state.products];
+            // 
             return {
                 ...state
             }
@@ -108,7 +109,7 @@ const FilterContextProvider = ({ children }: { children: ReactNode }) => {
 
     const setFilterByCategory = () => {
         console.log('setFilterByCategory');
-        return dispatchFilter({ type: 'FILTERS_PRODUCT_BY_CATEGORY' });
+        return dispatchFilter({ type: 'FILTER_PRODUCTS_BY_CATEGORY' });
     }
 
     return <FilterContext.Provider value={{

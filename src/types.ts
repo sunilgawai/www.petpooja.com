@@ -19,11 +19,11 @@ export interface ITable {
 
 export interface ICart {
     id?: number;
-    customer_first_name: string;
-    customer_last_name: string;
-    customer_mobile: string;
-    payment_status: string;
-    payment_method: string;
+    customer_first_name?: string;
+    customer_last_name?: string;
+    customer_mobile?: string;
+    payment_status?: string;
+    payment_method?: string;
     total_price: number;
     cart_table_id?: number;
     Cart_items: ICartItem[];
@@ -33,8 +33,9 @@ export interface ICartItem {
     id?: number;
     cart_id?: number;
     itemmaster_id: number;
+    product_price?: number
     quantity: number;
-    name?: string
+    name: string
 }
 
 

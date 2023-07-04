@@ -8,12 +8,9 @@ const CartTable = () => {
 
     useEffect(() => {
         if (!activeTable || !activeTable.Cart || !activeTable.Cart.Cart_items) return;
+        console.log("Setting new Items in Item Table");
         setItems(activeTable.Cart.Cart_items)
-    }, [activeTable])
-
-    if (!activeTable || !activeTable.Cart || !activeTable.Cart.Cart_items) {
-        return null;
-    }
+    }, [activeTable])  // Checks if we have a active table.
 
     return (
         <div className="table-item-total">
@@ -23,40 +20,13 @@ const CartTable = () => {
                         <tr>
                             <th scope="col">No.</th>
                             <th scope="col">Item</th>
-                            <th scope="col">code</th>
                             <th scope="col">QTY.</th>
                             <th scope="col">Price</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            items.map((item, idx) => (<tr key={idx}>
-                                <td>{idx + 1}</td>
-                                <td><p className="h-6">{item.name}</p></td>
-                                <td>{item.quantity}</td>
-
-                                <td className="d-flex">
-                                    <button 
-                                    onClick={()=> increaseQty(item.itemmaster_id)}
-                                    className="btn">+</button>
-                                    {item.quantity}
-                                    <button 
-                                    onClick={()=> decreaseQty(item.itemmaster_id)}
-                                    className="btn">-</button>
-                                </td>
-
-                                <td>{item.quantity}</td>
-                                
-                                <td>
-                                    
-                                    <button 
-                                    onClick={()=> removeFromCart(item.itemmaster_id)}
-                                    className="btn">Remove</button>
-                                </td>
-                            </tr>))
-                        }
-                        {
+                        {  // if no item in cart.
                             !items.length && <tr>
                                 {/* <div className="no-item"> */}
                                 <td colSpan={4}>
@@ -65,6 +35,32 @@ const CartTable = () => {
                                 </td>
                                 {/* </div> */}
                             </tr>
+                        }
+                        {
+                            items.map((item, idx) => (<tr key={idx}>
+                                <td>{idx + 1}</td>
+                                <td>{item.name}</td>
+                                {/* <td>{item.quantity}</td> */}
+
+                                <td className="d-flex">
+                                    <button
+                                        onClick={() => decreaseQty(item.itemmaster_id)}
+                                        className="btn">-</button>
+                                    {item.quantity}
+                                    <button
+                                        onClick={() => increaseQty(item.itemmaster_id)}
+                                        className="btn">+</button>
+                                </td>
+
+                                <td>{item.quantity}</td>
+
+                                <td>
+
+                                    <button
+                                        onClick={() => removeFromCart(item.itemmaster_id)}
+                                        className="btn">Remove</button>
+                                </td>
+                            </tr>))
                         }
                     </tbody>
                 </table>

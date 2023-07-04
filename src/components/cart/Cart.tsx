@@ -7,10 +7,11 @@ import { IOrderForm, ITable } from "../../types";
 import CustomerDetails from "../delivery/CustomerDetails";
 
 const Cart: FC = () => {
-    const { cartTables, activeTable, setCartTables } = useCartContext();
+    // Tables which we are getting from server and The current active cart.
+    const { cartTables, activeTable } = useCartContext();
     const [selectedTable, setSelectedTable] = useState<ITable>({} as ITable);
-    const [open, setOpen] = useState(false);
-    const [paymentDisabled, setPaymentDisabled] = useState(true);
+    const [open, setOpen] = useState(false); // For Cart Bottom Controller.
+    const [orderDisabled, setOrderDisabled] = useState(true);
 
     const [orderForm, setOrderForm] = useState<IOrderForm>({
         shop_code: 'XXX',
@@ -75,13 +76,14 @@ const Cart: FC = () => {
             ...orderForm,
             order_items: [...activeTable.Cart.Cart_items]
         })
+        console.log('Order forms items', orderForm.order_items);
     }, [activeTable])
 
     useEffect(() => {
         if (orderForm.customer_first_name.length
             && orderForm.customer_last_name.length
             && orderForm.customer_mobile.length) {
-            setPaymentDisabled(!paymentDisabled);
+            setOrderDisabled(!orderDisabled);
         }
     }, [orderForm])
 
@@ -124,6 +126,7 @@ const Cart: FC = () => {
             {/* this will receive a table. */}
             <CustomerDetails handleOrderForm={handleOrderForm} />
             <CartTable />
+
             {/* <CartItems table={selectedTable} /> */}
             <div onClick={() => setOpen(!open)} className={`${open ? 'open' : ''} bottom-select-menu`}>
                 <div className="menu-total">
@@ -187,12 +190,11 @@ const Cart: FC = () => {
                             type="checkbox"
                             id="payment_status"
                             name="payment_status"
-                            value="1" // 1 as it order will be paid.
+                            value="1" // 1 as true
                             onChange={(e) => {
                                 handleOrderForm(e);
                                 handleOrderPlace();
                             }}
-                            disabled={paymentDisabled}
                         />
                         <span>It's Paid</span>
                     </label>
@@ -201,11 +203,16 @@ const Cart: FC = () => {
                 <div className="menu-button">
                     <a href="#" className="btn gray-color mx-2">Save Print</a>
                     <a href="#" className="btn gray-color mx-2">Save &eBill</a>
+                    <a
+                        onClick={() => handleOrderPlace()}
+                        className="btn gray-color mx-2">
+                        Order Now
+                    </a>
                     <a href="#" className="btn gray-color mx-2">KOT & Print </a>
                     <a href="#" className="btn gray-color mx-2">Hold</a>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

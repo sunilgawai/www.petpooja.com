@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { ITable } from "../types";
+import { ICartItem, ITable } from "../types";
 
 interface ICartContextProps {
     cartTables: ITable[]
@@ -7,155 +7,39 @@ interface ICartContextProps {
     activeTable: ITable
     setActiveTable: React.Dispatch<React.SetStateAction<ITable>>
     storeCart: (product_id: number, product_price: number, name: string) => void
-    updateCart: (payment_method: string, payment_status?: string) => void
-    updateCustomer: (customer_first_name: string, customer_last_name: string, customer_mobile: string) => void
     increaseQty: (id: number) => void
     decreaseQty: (id: number) => void
+    increaseQuantity: (product_id: number) => void
+    decreaseQuantity: (product_id: number) => void
     removeFromCart: (id: number) => void
 }
 
 const CartContext = createContext<ICartContextProps>({} as ICartContextProps);
 
 const CartContextProvider = ({ children }: { children: ReactNode }) => {
-    const [tables, setTables] = useState<ITable[]>([]);
     const [cartTables, setCartTables] = useState<ITable[]>([]);
-    const [activeTable, setActiveTable] = useState<ITable>(tables[0]);
+    const [activeTable, setActiveTable] = useState<ITable>({} as ITable);
 
     useEffect(() => {
+        console.log('fetching carts')
         fetch('http://localhost:4000/api/cart')
             .then(res => res.json())
             .then(data => {
-                console.log('Tables in CartContext', data);
-                setTables(data);
+                setCartTables(data);
             })
             .catch(err => console.log(err))
     }, [])
 
     useEffect(() => {
-        setCartTables(tables);
-        setActiveTable(tables[0]);
-        console.log('active table from cart context', activeTable);
-    }, [tables])
+        // setCartTables(tables);
+        setActiveTable(cartTables[0]);
+        console.log("Cart Tables changed", { cartTables, activeTable })
+    }, [cartTables])
 
     useEffect(() => {
-        // Needs to update this table to whole table array.
+        // We need to store it on server.
     }, [activeTable])
 
-    const storeToDB = (table: ITable) => {
-        console.log('storing to db', table)
-        const { id, Cart } = table;
-        if (!Cart) return;
-        console.log('cart body', Cart.Cart_items)
-        fetch('http://localhost:4000/api/cart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cart_table_id: id,
-                customer_first_name: Cart.customer_first_name ? Cart.customer_first_name : 'unknown',
-                customer_last_name: Cart.customer_last_name ? Cart.customer_last_name : 'unknown',
-                customer_mobile: Cart.customer_mobile ? Cart.customer_mobile : 'unknown',
-                payment_method: Cart.payment_method ? Cart.payment_method : 'CASH',
-                payment_status: Cart.payment_status ? Cart.payment_status : '0',
-                total_price: Cart.total_price,
-                cart_items: Cart.Cart_items
-            })
-        }).then(res => res.json())
-            .then(table => {
-                console.log('updated table', table)
-                setActiveTable(table);
-            }).catch(err => console.log(err));
-    };
-
-    const storeCart = (product_id: number, product_price: number, name: string) => {
-        // add items to active cart.
-        console.log('adding to cart');
-        const table = structuredClone(activeTable);
-        console.log('Product Price', table.Cart, product_price)
-        // If cart is available.
-        if (table.Cart) {
-            if (table.Cart.Cart_items) {
-                const product = table.Cart.Cart_items.findIndex(item => item.itemmaster_id === product_id);
-                if (product === -1) {
-                    table.Cart.Cart_items.push({
-                        itemmaster_id: product_id,
-                        quantity: 1,
-                        name: name
-                    });
-                    storeToDB(table);
-                    return;
-                }
-                table.Cart.Cart_items[product].quantity += 1;
-                table.Cart.Cart_items[product].name = name;
-                console.log(`total cart price ${table.Cart.total_price}, product ${product}`)
-                table.Cart.total_price += product_price;
-                console.log("updated Table 😊", table.Cart)
-                storeToDB(table);
-            } else {
-                table.Cart.Cart_items = [{
-                    itemmaster_id: product_id,
-                    quantity: 1,
-                    name: name
-                }];
-                table.Cart.total_price += product_price;
-                storeToDB(table);
-            }
-        }
-        // if cart is empty.
-        else {
-            table.Cart = {
-                customer_first_name: '',
-                customer_last_name: '',
-                customer_mobile: '',
-                payment_method: '',
-                payment_status: '',
-                Cart_items: [{
-                    itemmaster_id: product_id,
-                    quantity: 1,
-                    name: name
-                }],
-                total_price: product_price
-            }
-            storeToDB(table);
-        }
-        // Set active table.
-        setActiveTable(table);
-    }
-
-    const updateCart = (payment_method: string, payment_status = '0') => {
-        setCartTables((prev_tables) => {
-            const updated_tables = [...prev_tables];
-            const table = updated_tables.find(table => table.id === activeTable.id);
-            const cart = table?.Cart;
-            if (cart) {
-                cart.payment_method = payment_method;
-                cart.payment_status = payment_status;
-            }
-            return updated_tables;
-        })
-    }
-
-    const updateCustomer = (customer_first_name: string, customer_last_name: string, customer_mobile: string) => {
-        // Update active table with customer information.
-        const table = structuredClone(activeTable);
-        if (table.Cart) {
-            table.Cart.customer_first_name = customer_first_name;
-            table.Cart.customer_last_name = customer_last_name;
-            table.Cart.customer_mobile = customer_mobile;
-        } else {
-            table.Cart = {
-                customer_first_name: customer_first_name,
-                customer_last_name: customer_last_name,
-                customer_mobile: customer_mobile,
-                payment_method: '',
-                payment_status: '',
-                Cart_items: [],
-                total_price: 0
-            }
-        }
-        setActiveTable(table);
-    }
 
     const increaseQty = (id: number) => {
         // increase the quantity of the items.
@@ -172,34 +56,35 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         // storeToDB(table)
     }
 
-    const removeFromCart = (id: number) => {
-        console.log('id', id);
-        // setCartTables(prevTables => {
-        //     return prevTables.map(table => {
-        //         if (table.id === activeTable.id) {
-        //             const updatedCartItems = table.Cart.Cart_items.filter(item => item.id !== id);
-        //             return {
-        //                 ...table,
-        //                 Cart: {
-        //                     ...table.Cart,
-        //                     Cart_items: updatedCartItems
-        //                 }
-        //             };
-        //         }
-        //         return table;
-        //     });
-        // })
-        console.log('pre items', activeTable.Cart.Cart_items)
-        const filtered = activeTable.Cart.Cart_items.filter((item) => item.itemmaster_id !== id)
-        setActiveTable({
-            ...activeTable,
-            Cart: {
-                ...activeTable.Cart,
-                Cart_items: [...filtered]
-            }
-        })
-        console.log('new items loaded', activeTable.Cart.Cart_items)
-    }
+    // Needs to check if it works properly.
+    // const removeFromCart = (id: number) => {
+    //     console.log('id', id);
+    //     // setCartTables(prevTables => {
+    //     //     return prevTables.map(table => {
+    //     //         if (table.id === activeTable.id) {
+    //     //             const updatedCartItems = table.Cart.Cart_items.filter(item => item.id !== id);
+    //     //             return {
+    //     //                 ...table,
+    //     //                 Cart: {
+    //     //                     ...table.Cart,
+    //     //                     Cart_items: updatedCartItems
+    //     //                 }
+    //     //             };
+    //     //         }
+    //     //         return table;
+    //     //     });
+    //     // })
+    //     console.log('pre items', activeTable.Cart.Cart_items)
+    //     const filtered = activeTable.Cart.Cart_items.filter((item) => item.itemmaster_id !== id)
+    //     setActiveTable({
+    //         ...activeTable,
+    //         Cart: {
+    //             ...activeTable.Cart,
+    //             Cart_items: [...filtered]
+    //         }
+    //     })
+    //     console.log('new items loaded', activeTable.Cart.Cart_items)
+    // }
 
     const decreaseQty = (id: number) => {
         // increase the quantity of the items.
@@ -218,6 +103,121 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         // storeToDB(table)
     }
 
+    const storeCart = (product_id: number, product_price: number, name: string) => {
+        setCartTables((prev_tables) => {
+            return prev_tables.map((table: ITable) => {
+                let updatedCartItems: ICartItem[] = [];
+                if (table.id === activeTable.id) {
+                    let isItemUpdated = false;
+                    if (table.Cart?.Cart_items) {
+                        updatedCartItems = table.Cart?.Cart_items?.map((item) => {
+                            if (item.itemmaster_id === product_id) {
+                                isItemUpdated = true;
+                                return {
+                                    ...item,
+                                    quantity: item.quantity + 1,
+                                };
+                            }
+                            return item;
+                        });
+                    }
+
+                    if (!isItemUpdated) {
+                        updatedCartItems.push({
+                            itemmaster_id: product_id,
+                            quantity: 1,
+                            name: name,
+                            product_price: product_price
+                        });
+                    }
+
+                    return {
+                        ...table,
+                        Cart: {
+                            ...table.Cart,
+                            Cart_items: updatedCartItems,
+                            total_price: product_price
+                        },
+                    };
+                }
+                return table;
+            });
+        });
+        
+    }
+
+    const increaseQuantity = (product_id: number) => {
+        setCartTables((prev_tables) => {
+            return prev_tables.map((table: ITable) => {
+                if (table.id === activeTable.id) {
+                    const updatedCartItems: ICartItem[] = table.Cart?.Cart_items?.map((item) => {
+                        if (item.itemmaster_id === product_id) {
+                            return {
+                                ...item,
+                                quantity: item.quantity + 1,
+                            };
+                        }
+                        return item;
+                    });
+
+                    return {
+                        ...table,
+                        Cart: {
+                            ...table.Cart,
+                            Cart_items: updatedCartItems,
+                        },
+                    };
+                }
+                return table;
+            });
+        });
+    };
+
+    const decreaseQuantity = (product_id: number) => {
+        setCartTables((prev_tables) => {
+            return prev_tables.map((table: ITable) => {
+                if (table.id === activeTable.id) {
+                    const updatedCartItems: ICartItem[] = table.Cart?.Cart_items?.map((item) => {
+                        if (item.itemmaster_id === product_id && item.quantity > 0) {
+                            return {
+                                ...item,
+                                quantity: item.quantity - 1,
+                            };
+                        }
+                        return item;
+                    });
+
+                    return {
+                        ...table,
+                        Cart: {
+                            ...table.Cart,
+                            Cart_items: updatedCartItems,
+                        },
+                    };
+                }
+                return table;
+            });
+        });
+    };
+
+    const removeFromCart = (product_id: number) => {
+        setCartTables((prev_tables) => {
+            return prev_tables.map((table: ITable) => {
+                if (table.id === activeTable.id) {
+                    const updatedCartItems: ICartItem[] = table.Cart?.Cart_items?.filter((item) => item.itemmaster_id !== product_id);
+
+                    return {
+                        ...table,
+                        Cart: {
+                            ...table.Cart,
+                            Cart_items: updatedCartItems,
+                        },
+                    };
+                }
+                return table;
+            });
+        });
+    };
 
 
     return <CartContext.Provider value={{
@@ -225,12 +225,12 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
         setCartTables,
         activeTable,
         setActiveTable,
-        storeCart,
-        updateCart,
-        updateCustomer,
         increaseQty,
         decreaseQty,
-        removeFromCart
+        removeFromCart,
+        storeCart,
+        increaseQuantity,
+        decreaseQuantity
     }}>
         {children}
     </CartContext.Provider>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { IProduct } from '../../types';
-import { useCartContext, useCartContextOld } from '../../context';
+import { useCartContext } from '../../context';
 import { FC } from "react";
 
 type ProductProps = {
@@ -8,7 +8,6 @@ type ProductProps = {
 }
 const Product: FC<ProductProps> = ({ product }) => {
     const { id, ItemRate_ID: { Item_Rate }, Item_Name } = product;
-    // const { addToCart, activeCart } = useCartContextOld();
     const { storeCart } = useCartContext();
 
     return (
@@ -16,9 +15,9 @@ const Product: FC<ProductProps> = ({ product }) => {
             <Link
                 onClick={(e) => {
                     e.preventDefault();
-                    // addToCart(activeCart, product.id, product.id, product.Item_Name);
+                    // handleAddToCart(id, Item_Rate, Item_Name)
                     storeCart(id, Item_Rate, Item_Name)
-                    console.log(id, Item_Name, Item_Rate)
+                    // console.log(id, Item_Name, Item_Rate)
                 }}
                 to="#"
                 className="active">

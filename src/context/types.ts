@@ -1,7 +1,7 @@
 import { ICart, ICategory, IProduct, ITable } from "../types"
 
 export interface ICartContextProps {
-    cartT̥ables: ITable[]
+    cartTables: ITable[]
     setCartTables: React.Dispatch<React.SetStateAction<ITable[]>>
     cart: ICart | null
     setCart: React.Dispatch<React.SetStateAction<ICart | null>>

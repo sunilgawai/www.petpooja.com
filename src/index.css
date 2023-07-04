@@ -1,6 +1,4 @@
-body {
-    overflow-y: hidden;
-}
+
 
 .modal-backdrop.show {
     opacity: 0;
